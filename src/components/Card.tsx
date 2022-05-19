@@ -1,20 +1,22 @@
 import styled from 'styled-components';
 import { FC } from 'react';
 import { ICard } from '../interfacases';
+import { Link } from 'react-router-dom';
 
-const Wrapper = styled.article`
-   background-color: var(--colors-ui-base);
-   color: var(--colors-text);
-   border-radius: var(--radii);
-   box-shadow: var(--shadow);
-   overflow: hidden;
-   transition: all 0.1s linear;
-   text-decoration: none;
-   cursor: pointer;
+const CardLink = styled(Link)`
+    text-decoration: none;
+    background-color: var(--colors-ui-base);
+    color: var(--colors-text);
+    border-radius: var(--radii);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: all 0.1s linear;
+    text-decoration: none;
+    cursor: pointer;
 
-   :hover{
-       opacity: .6;
-   }
+    :hover{
+        opacity: .6;
+    }
 `;
 
 const CardImage = styled.img`
@@ -26,6 +28,7 @@ const CardImage = styled.img`
 
 const CardBody = styled.div`
     padding: 10px;
+    display: block;
 `;
 
 const CardTitle = styled.h2`
@@ -36,6 +39,7 @@ const CardTitle = styled.h2`
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    display: block;
 `;
 
 const CardInfo = styled.div`
@@ -51,17 +55,20 @@ const CardDetails = styled.p`
 `;
 
 
-export const Card = ({ background_image, name, rating, released }: ICard) => {
+export const Card = ({ background_image, name, rating, released, id }: ICard) => {
+
+
+
     return (
-    <Wrapper>
-        <CardImage src={background_image} alt={name} />
-        <CardBody>
-            <CardTitle>{name}</CardTitle>
-            <CardInfo>
-                <CardDetails>{rating}</CardDetails>
-                <CardDetails>{released}</CardDetails>
-            </CardInfo>
-        </CardBody>
-    </Wrapper>
+        <CardLink to={`/games/${id}`}>
+            <CardImage src={background_image} alt={name} />
+            <CardBody>
+                <CardTitle>{name}</CardTitle>
+                <CardInfo>
+                    <CardDetails>{rating}</CardDetails>
+                    <CardDetails>{released}</CardDetails>
+                </CardInfo>
+            </CardBody>
+        </CardLink>
     )
 }

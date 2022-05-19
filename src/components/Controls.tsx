@@ -38,11 +38,23 @@ const SelectWrapper = styled.div`
     }
 `;
 
-export const Controls = () => {
+interface ControlsProps {
+    onSearch(search: string, selectedFilter: string): void;
+
+}
+
+export const Controls: FC<ControlsProps> = ({ onSearch}) => {
 
     const [search, setSearch] = useState<string>('');
     const [selectedSort, setSelectedSort] = useState<string>('');
     const [selectedFilter, setSelectedFilter] = useState('');
+
+    useEffect(() => {
+        // const selectedFilterValue = selectedFilter?.value || '';
+        // console.log(selectedFilterValue)
+        onSearch(search, selectedFilter)
+        console.log(selectedFilter)
+    }, [search, selectedFilter]);
 
     const searchHendler = (e: React.ChangeEvent<HTMLInputElement>) : void => {
         setSearch(e.target.value);
