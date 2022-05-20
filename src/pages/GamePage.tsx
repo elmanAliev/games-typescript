@@ -1,7 +1,7 @@
 import {useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import {BASE_URL, ALL_GAMES} from '../config';
+import {BASE_URL, KEY} from '../config';
 
 export const GamePage = () => {
 
@@ -10,7 +10,7 @@ export const GamePage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(BASE_URL+'/'+id+ALL_GAMES)
+        axios.get(BASE_URL+'/'+id+KEY)
             .then(({ data }) => {
                 setGame(data)
                 

@@ -40,21 +40,25 @@ const SelectWrapper = styled.div`
 
 interface ControlsProps {
     onSearch(search: string, selectedFilter: string): void;
-
+    onSort(sort: string): void;
 }
 
-export const Controls: FC<ControlsProps> = ({ onSearch}) => {
+export const Controls: FC<ControlsProps> = ({ onSearch, onSort}) => {
 
     const [search, setSearch] = useState<string>('');
-    const [selectedSort, setSelectedSort] = useState<string>('');
-    const [selectedFilter, setSelectedFilter] = useState('');
+    const [selectedSort, setSelectedSort] = useState<any>('');
+    const [selectedFilter, setSelectedFilter] = useState<any>('');
 
     useEffect(() => {
-        // const selectedFilterValue = selectedFilter?.value || '';
-        // console.log(selectedFilterValue)
-        onSearch(search, selectedFilter)
-        console.log(selectedFilter)
+        const selectedFilterValue = selectedFilter?.value || '';
+        onSearch(search, selectedFilterValue)
     }, [search, selectedFilter]);
+
+    useEffect(() => {
+        const selectedSortValue = selectedSort?.value || '';
+        console.log(selectedSortValue)
+        onSort(selectedSortValue)
+    }, [selectedSort]);
 
     const searchHendler = (e: React.ChangeEvent<HTMLInputElement>) : void => {
         setSearch(e.target.value);
@@ -73,7 +77,10 @@ export const Controls: FC<ControlsProps> = ({ onSearch}) => {
     return (
         <div>
             <Wrapper>
-                <Search value={search} searchHendler={searchHendler} />
+                <Search 
+                    value={search}
+                    searchHendler={searchHendler}
+                />
                 <SelectWrapper>
                     <CustomSelect
                         options={filterOptions}
