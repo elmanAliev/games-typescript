@@ -1,4 +1,4 @@
-# Pet-проект: Games
+# Pet-проект: Games (в процессе)
 
 ## Описание
 "Витрина" игр на базе API https://rawg.io/apidocs.
