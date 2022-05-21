@@ -50,6 +50,7 @@ export const Controls: FC<IControlsProps> = ({ onSearch }) => {
         const selectedFilterValue = selectedFilter?.value || '';
         const selectedSortValue = selectedSort?.value || '';
         onSearch(search, selectedFilterValue, selectedSortValue)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [search, selectedFilter, selectedSort]);
 
 

@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import { HomePage } from './pages/HomePage';
@@ -21,6 +21,7 @@ const App: FC = () => {
   useEffect(() => {
     if (!cards.length)
       axios.get(BASE_URL + KEY).then(({ data }) => setCards(data.results));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
