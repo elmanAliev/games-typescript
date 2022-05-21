@@ -1,9 +1,5 @@
-// interface IName {
-//     name: string
-// }
-
-interface IPlatforms {
-    platform: {name: string}
+export interface ICards {
+    cards: ICard[];
 }
 
 export interface ICard {
@@ -13,4 +9,13 @@ export interface ICard {
     released: number | any;
     id: number;
     platforms?: IPlatforms[]
+}
+
+export interface IPlatforms {
+    platform: {name: string}
+}
+
+export interface IControlsProps {
+    onSearch(search: string, selectedFilter: string, selectedSort: any): void;
+    
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect, FC } from 'react';
 import styled from 'styled-components';
 import { Search } from './Search';
 import { CustomSelect } from './CustomSelect';
+import { IControlsProps } from '../interfacases';
 
 const filterOptions = [
     { value: 'ratingDown', label: 'Рейтинг (убыв.)' },
@@ -38,12 +39,8 @@ const SelectWrapper = styled.div`
     }
 `;
 
-interface ControlsProps {
-    onSearch(search: string, selectedFilter: string): void;
-    onSort(sort: string): void;
-}
 
-export const Controls: FC<ControlsProps> = ({ onSearch, onSort}) => {
+export const Controls: FC<IControlsProps> = ({ onSearch }) => {
 
     const [search, setSearch] = useState<string>('');
     const [selectedSort, setSelectedSort] = useState<any>('');
@@ -51,26 +48,20 @@ export const Controls: FC<ControlsProps> = ({ onSearch, onSort}) => {
 
     useEffect(() => {
         const selectedFilterValue = selectedFilter?.value || '';
-        onSearch(search, selectedFilterValue)
-    }, [search, selectedFilter]);
-
-    useEffect(() => {
         const selectedSortValue = selectedSort?.value || '';
-        console.log(selectedSortValue)
-        onSort(selectedSortValue)
-    }, [selectedSort]);
+        onSearch(search, selectedFilterValue, selectedSortValue)
+    }, [search, selectedFilter, selectedSort]);
+
 
     const searchHendler = (e: React.ChangeEvent<HTMLInputElement>) : void => {
         setSearch(e.target.value);
     }
 
-    // Сортировка по рейтингу и дате релиза игры (в обе стороны)
-    function sortCards(sort: any) : void {
+    const sortCards = (sort: any) : void => {
         setSelectedSort(sort);
     }
 
-    // Фильтрация по платформам
-    function filterCards(filter: any) : void {
+    const filterCards = (filter: any) : void => {
         setSelectedFilter(filter);
     }
 

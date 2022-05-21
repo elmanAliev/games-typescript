@@ -3,22 +3,19 @@ import { SORT } from '../config';
 import { Controls } from '../components/Controls';
 import { List } from '../components/List';
 import { Card } from '../components/Card';
-import { ICard } from '../interfacases';
-
-interface ICards {
-    cards: ICard[];
-}
+import { ICards } from '../interfacases';
 
 
 export const HomePage: FC<ICards> = ({ cards }) => {
 
-    const [filteredCards, setFilteredCards] = useState(cards);
+    const [currentCards, setCurrentCards] = useState(cards);
 
     useEffect(() => {
-        setFilteredCards(cards)
+        setCurrentCards(cards)
     }, [cards]);
 
-    const hendleSearch = (search: string, filter: any) => {
+    // поиск, фильтр и сортировка
+    const hendleControl = (search: string, filter: any, sort: any) => {
         let data = [...cards];
 
         if (search) {
@@ -29,46 +26,42 @@ export const HomePage: FC<ICards> = ({ cards }) => {
             data = data.filter(a => a.platforms?.some(b => b.platform.name === filter));
         }
 
-        setFilteredCards(data)
+        if (sort) {
+            if (sort === SORT.RATE_ASC) {
+                data = data.sort((a, b) => a.rating - b.rating);
+            }
+    
+            if (sort === SORT.RATE_DESC) {
+                data = data.sort((a, b) => b.rating - a.rating);
+            }
+    
+            if (sort === SORT.REL_ASC) {
+                data = data.sort((a, b) => {
+                    const date1 = new Date(b.released);
+                    const date2 = new Date(a.released);
+                    return date2.getTime() - date1.getTime()
+                });
+            }
+    
+            if (sort === SORT.REL_DESC) {
+                data = data.sort((a, b) => {
+                    const date1 = new Date(b.released);
+                    const date2 = new Date(a.released);
+                    return date1.getTime() - date2.getTime()
+                });    
+            }
+        }
+
+        setCurrentCards(data)
     }
 
-    const hendleSort = (sort: any) => {
-        let data = [...cards];
-        console.log(data)
-        if (sort === SORT.RATE_ASC) {
-            data = data.sort((a, b) => a.rating - b.rating);
-        }
-
-        if (sort === SORT.RATE_DESC) {
-            data = data.sort((a, b) => b.rating - a.rating);
-        }
-
-        if (sort === SORT.REL_ASC) {
-            data = data.sort((a, b) => {
-                const date1 = new Date(b.released);
-                const date2 = new Date(a.released);
-                return date2.getTime() - date1.getTime()
-            });
-        }
-
-        if (sort === SORT.REL_DESC) {
-            data = data.sort((a, b) => {
-                const date1 = new Date(b.released);
-                const date2 = new Date(a.released);
-                return date1.getTime() - date2.getTime()
-            });    
-        }
-
-        setFilteredCards(data)
-        console.log(sort)
-    }
 
     return (
         <>
-            <Controls onSearch={hendleSearch} onSort={hendleSort} />
+            <Controls onSearch={hendleControl} />
             <List>
                 {
-                    filteredCards.map(card => {
+                    currentCards.map(card => {
                         return <Card
                             background_image={card.background_image}
                             name={card.name}
